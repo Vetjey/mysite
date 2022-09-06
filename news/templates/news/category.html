@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Новости по категориям
+{% endblock title %}
+
+{% block sidebar %}
+{% include 'include/_sidebar.html' %}
+{% endblock sidebar %}
+
+{% block content %}
+{% if  news %}
+{% for item in news%}
+<div class="card mb-3">
+    <div class="card-header">
+        <a href="{% url 'category' item.category.pk %}">{{ item.category }}</a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title mt-0">{{ item.title }}</h5>
+        <p class="card-text">{{ item.content|truncatewords:"45" }}</p>
+        <a href="{{ item.get_absolute_url }}" class="btn btn-primary mb-3">Read more...</a>
+        <div class="card-footer text-muted">
+            {{ item.created_at|date:"Y-m-d H:i" }}
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="card mb-3">
+    <div class="card-body">
+    <h5 class="card-title mt-0">Новости этой категории отсутствуют</h5>
+    <a href="{% url 'home' %}" class="btn btn-primary mb-3 mt-3">Вернуться на главную</a>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
